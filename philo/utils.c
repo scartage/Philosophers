@@ -4,7 +4,7 @@
  * esten en el rango de digitos*/
 int ft_isnum(char n)
 {
-	if (n >= '0' && n <= '9')
+	if ((n >= '0' && n <= '9') || n == '-')
 		return (1);
 	return (0);
 }
