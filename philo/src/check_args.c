@@ -1,4 +1,4 @@
-#include "inc/philo.h"
+#include "../inc/philo.h"
 
 /*Revisamos que la cantidad de argumentos sea la correcta
  * sin parametro adicional son 5, con parametro adicional son 6*/
