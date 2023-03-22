@@ -1,5 +1,16 @@
-#include "../inc/philo.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/22 17:33:37 by scartage          #+#    #+#             */
+/*   Updated: 2023/03/22 17:48:14 by scartage         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../inc/philo.h"
 
 /*La función ft_time() obtiene el tiempo actual en milisegundos
  * utilizando la estructura timeval de la librería <sys/time.h>.
@@ -21,7 +32,25 @@ long long int get_time(void)
 	return (actual_time);
 }
 
-/*Para comprobar que cada caracter que nos pasan
+/*La función "ft_usleep" implementa una
+ * pausa en la ejecución del programa durante
+ * un número determinado de microsegundos.
+ * El parámetro de entrada "nbr" indica la 
+ * cantidad de microsegundos que el programa 
+ * debe detener su ejecución.*/
+void ft_usleep(int nbr)
+{
+	long long int count;
+
+	count = get_time();
+	while (nbr > get_time() - count)
+	{
+		usleep(nbr / 2);
+	}
+}
+
+/*Para comprobar que cada
+ * caracter que nos pasan
  * esten en el rango de digitos*/
 int ft_isnum(char n)
 {

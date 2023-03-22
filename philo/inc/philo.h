@@ -6,7 +6,7 @@
 /*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:00:04 by scartage          #+#    #+#             */
-/*   Updated: 2023/03/19 19:13:39 by scartage         ###   ########.fr       */
+/*   Updated: 2023/03/22 19:34:31 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_philo
 	int id;
 	int left_fork;
 	int right_fork;
+	long long int	last_eat;
 
 	t_data *data;
 }		t_philo;
@@ -39,6 +40,7 @@ typedef struct s_data
 	long long int time_eat;
 	long long int time_sleep;
 	int times_must_eat;
+	int death;
 
 	long long int time_start;
 	t_philo	*philo;
@@ -53,9 +55,10 @@ bool check_ac(int ac);
 bool check_av(char **av);
 
 //Utils
-int ft_isnum(char n);
-int ft_atoi(char *s);
-long long int get_time(void);
+int				ft_isnum(char n);
+int				ft_atoi(char *s);
+long long int	get_time(void);
+void			ft_usleep(int nbr);
 
 //inits
 int init(t_data *data, char **av);		//init general
@@ -63,4 +66,9 @@ int init_data(t_data *data, char **av);
 int init_mutex(t_data *data);
 int init_philos(t_data *data);
 
+//crear hilos
+int create_pthread(t_data *data);
+
+//printers info philo
+void ft_print_fork(t_philo *philo);
 #endif

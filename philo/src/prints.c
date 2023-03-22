@@ -1,33 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   prints.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/22 17:33:30 by scartage          #+#    #+#             */
-/*   Updated: 2023/03/22 17:59:26 by scartage         ###   ########.fr       */
+/*   Created: 2023/03/22 19:26:30 by scartage          #+#    #+#             */
+/*   Updated: 2023/03/22 19:36:44 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int main(int ac, char **av)
+void ft_print_fork(t_philo *philo)
 {
-	t_data *data;
-
-	if (!check_ac(ac) || !check_av(av))
-		return (-1);
-	data = (t_data*)malloc(sizeof(t_data));
-	if (data == NULL)
-		return (-1);
-	if (init(data, av) == -1)
-		return (-1);
-	data->time_start = get_time();
-	
-	if (create_pthread(data) != 0)
-		return (-1);
-	printf("que hora es? %lld\n", data->time_start);
-	printf("parametros exitosamente guardados\n");
-	return 0;
+	pthread_mutex_lock(&philo->data->m_print);
+	if (philo->data->death == 0)
+		printf("%lld el philo %d has taken a fork\n", 
+				(get_time() - philo->data->time_start), philo->id);
+	pthread_mutex_unlock(&philo->data->m_print);
 }

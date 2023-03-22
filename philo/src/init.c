@@ -1,11 +1,27 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/22 17:33:42 by scartage          #+#    #+#             */
+/*   Updated: 2023/03/22 19:38:01 by scartage         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/philo.h"
 
+/*Inicializamos las variables de la estructura data.
+ * Se tiene en cuenta en si se pasa el argumento opcional,
+ * ademas de revisar de que los valores sean correctos.*/
 int init_data(t_data *data, char **av)
 {
 	data->number_philo = ft_atoi(av[1]);
 	data->time_die = ft_atoi(av[2]);
 	data->time_eat = ft_atoi(av[3]);
 	data->time_sleep = ft_atoi(av[4]);
+	data->death = 0;
 
 	if (av[5])
 	{
@@ -25,7 +41,8 @@ int init_data(t_data *data, char **av)
 	return (0);
 }
 
-
+/*La cantidad de tenedores es la misma que la cantidad de filosofos.
+ * aqui creamos un inicializamos el mutex para cada tenedor.*/
 int init_mutex(t_data *data)
 {
 	int count;
@@ -47,6 +64,10 @@ int init_mutex(t_data *data)
 	return 0;
 }
 
+/*Asignamos valores a la estructura de cada filosofo.
+ * le damos un ID (comenzando desde el 1), le asignamos un
+ * tenedor a la izquierda y otro a la dercha y cada filosofo
+ * tendra la estructura de data*/
 int init_philos(t_data *data)
 {
 	int count;
@@ -65,7 +86,8 @@ int init_philos(t_data *data)
 	}
 	data->philo[0].right_fork = count - 1;
 	
-	/* Con esto revisamos que esten bien sentados
+	/* Con esto revisamos que esten los tenedores esten
+	 * en la posicion correcta.
 	 * count = 0;
 	while (count < data->number_philo)
 	{
@@ -76,6 +98,8 @@ int init_philos(t_data *data)
 	return 0;
 }
 
+/*Funcion general, inicializa datos, tenedores y filosofos.
+ * en caso de fallo devuelve un -1, en caso de exito 0*/
 int init(t_data *data, char **av)
 {
 	if (init_data(data, av) == -1)
