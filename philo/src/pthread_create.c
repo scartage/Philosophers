@@ -6,7 +6,7 @@
 /*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 17:33:57 by scartage          #+#    #+#             */
-/*   Updated: 2023/03/22 19:36:32 by scartage         ###   ########.fr       */
+/*   Updated: 2023/04/02 21:07:28 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,18 @@ void *ft_routine(void *arg)
 	philo = (t_philo *)arg;
 
 	//es necesario que los philos pares esperen un rato antes de comenzar
-	philo->last_eat = (get_time() - philo->data->time_start);
+	if (philo->id % 2 == 0)
+		ft_usleep(philo->data->time_eat);
+	//philo->last_eat = (get_time() - philo->data->time_start);
 	while (philo->data->death == 0)
 	{
 		if (ft_one_philo(philo))
 			break;
-		//if (ft_eat(philo) == -1)
-		//	break;
+		if (ft_eat(philo) == -1 || ft_sleep(philo) == -1
+				|| ft_think(philo) == -1)
+			break;
 	}
+
 	counter = 0;
 	while (counter < philo->data->number_philo)
 	{
@@ -68,6 +72,9 @@ int create_pthread(t_data *data)
 		counter++;
 	}
 
+	ft_check_finish(data);	//bucle infinito checkea si mueren o comen n cantidad
+	pthread_mutex_unlock(&data->m_print); 
+	pthread_mutex_unlock(&data->m_death); 
 	counter = 0;
 	/*esperamos a que cada hilo finalice antes de volver al main*/
 	while (counter < data->number_philo)

@@ -6,7 +6,7 @@
 #    By: scartage <scartage@student.42barcel>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/08 20:53:35 by scartage          #+#    #+#              #
-#    Updated: 2023/03/22 19:33:35 by scartage         ###   ########.fr        #
+#    Updated: 2023/04/02 20:14:37 by scartage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ CFLAGS = -Wall -Werror -Wextra -fsanitize=address -pthread -g
 INCLUDES = inc/philo.h
 
 SRCS = main.c utils.c check_args.c init.c pthread_create.c	\
-		prints.c
+		prints.c ft_eat_sleep_think.c
 
 OBJ_DIR = obj
 OBJS = $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))

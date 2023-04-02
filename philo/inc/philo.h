@@ -6,7 +6,7 @@
 /*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:00:04 by scartage          #+#    #+#             */
-/*   Updated: 2023/03/22 19:34:31 by scartage         ###   ########.fr       */
+/*   Updated: 2023/04/02 21:08:49 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,19 @@ int init_philos(t_data *data);
 //crear hilos
 int create_pthread(t_data *data);
 
+//rutinas
+int ft_eat(t_philo *philo);
+int ft_sleep(t_philo *philo);
+int ft_think(t_philo *philo);
+
 //printers info philo
 void ft_print_fork(t_philo *philo);
+void ft_print_eat(t_philo *philo);
+void ft_print_sleep(t_philo *philo);
+void ft_print_think(t_philo *philo);
+void ft_print_death(t_philo *philo);
+
+//bucle que comprueba que haya muerto o hayan comido x veces
+void ft_check_finish(t_data *data);
+int ft_die(t_data *data);
 #endif

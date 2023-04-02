@@ -6,7 +6,7 @@
 /*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 17:33:30 by scartage          #+#    #+#             */
-/*   Updated: 2023/03/22 17:59:26 by scartage         ###   ########.fr       */
+/*   Updated: 2023/04/02 19:38:18 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int main(int ac, char **av)
 	
 	if (create_pthread(data) != 0)
 		return (-1);
-	printf("que hora es? %lld\n", data->time_start);
 	printf("parametros exitosamente guardados\n");
 	return 0;
 }
