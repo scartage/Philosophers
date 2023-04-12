@@ -6,7 +6,7 @@
 /*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/22 17:33:57 by scartage          #+#    #+#             */
-/*   Updated: 2023/04/02 21:07:28 by scartage         ###   ########.fr       */
+/*   Updated: 2023/04/12 16:50:34 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void *ft_routine(void *arg)
 		pthread_mutex_unlock(&philo->data->m_fork[counter]);
 		counter++;
 	}
-	printf("el hilo comenzo\n");
 	return philo;
 }
 
@@ -73,6 +72,7 @@ int create_pthread(t_data *data)
 	}
 
 	ft_check_finish(data);	//bucle infinito checkea si mueren o comen n cantidad
+	printf("sale");
 	pthread_mutex_unlock(&data->m_print); 
 	pthread_mutex_unlock(&data->m_death); 
 	counter = 0;

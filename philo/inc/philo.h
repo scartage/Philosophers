@@ -6,7 +6,7 @@
 /*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:00:04 by scartage          #+#    #+#             */
-/*   Updated: 2023/04/02 21:08:49 by scartage         ###   ########.fr       */
+/*   Updated: 2023/04/12 16:50:36 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_philo
 	int id;
 	int left_fork;
 	int right_fork;
+	int t_eat;
 	long long int	last_eat;
 
 	t_data *data;
