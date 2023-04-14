@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/22 17:33:30 by scartage          #+#    #+#             */
-/*   Updated: 2023/04/14 17:20:02 by scartage         ###   ########.fr       */
+/*   Created: 2023/04/14 17:14:32 by scartage          #+#    #+#             */
+/*   Updated: 2023/04/14 17:25:35 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-int main(int ac, char **av)
+void ft_clean(t_data *data)
 {
-	t_data *data;
+	int counter;
 
-	if (!check_ac(ac) || !check_av(av))
-		return (-1);
-	data = (t_data*)malloc(sizeof(t_data));
-	if (data == NULL)
-		return (-1);
-	if (init(data, av) == -1)
-		return (-1);
-	data->time_start = get_time();
-	
-	if (create_pthread(data) != 0)
-		return (-1);
-	ft_clean(data);
-	return 0;
+	counter = 0;
+
+	pthread_mutex_unlock(&data->m_print);
+	pthread_mutex_unlock(&data->m_death);
+	pthread_mutex_unlock(data->m_fork);
+	pthread_mutex_destroy(&data->m_print);
+	pthread_mutex_destroy(&data->m_death);
+	while (counter < data->number_philo)
+	{
+		pthread_mutex_destroy(&data->m_fork[counter]);
+		counter++;
+	}
+	free(data->philo);
+	free(data->m_fork);
+	free(data);
 }

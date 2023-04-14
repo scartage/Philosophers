@@ -6,7 +6,7 @@
 /*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/03 11:00:04 by scartage          #+#    #+#             */
-/*   Updated: 2023/04/12 16:50:36 by scartage         ###   ########.fr       */
+/*   Updated: 2023/04/14 17:21:09 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,7 @@ void ft_print_death(t_philo *philo);
 //bucle que comprueba que haya muerto o hayan comido x veces
 void ft_check_finish(t_data *data);
 int ft_die(t_data *data);
+
+//cleaner
+void ft_clean(t_data *data);
 #endif
