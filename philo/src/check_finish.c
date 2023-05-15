@@ -3,79 +3,89 @@
 /*                                                        :::      ::::::::   */
 /*   check_finish.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
+/*   By: scartage <scartage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/02 20:40:14 by scartage          #+#    #+#             */
-/*   Updated: 2023/04/12 16:50:32 by scartage         ###   ########.fr       */
+/*   Created: 2023/04/25 15:38:01 by scartage          #+#    #+#             */
+/*   Updated: 2023/05/09 16:32:42 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-//en el bucle solo empezamos a sumar la variable "finish" cuando
-//ya hay por lo menos un filosofo que ha comido mas de las n cantiddes
-int ft_have_eaten(t_data *data)
+/*En caso de que el programa se ejecute con el parametro opcional
+ * (data->must_eat), esta funcion busca que cada uno de los filosofos
+ * haya comido tal cantidad de veces.
+ *
+ * Comprobamos que cada philo haya comido mirando si las veces que comieron
+ * es igual al numero de philos.
+ * 
+ * Eaten es el numero de filosofos que han comido x cantidad de veces
+ * NO las veces que han comido cada uno.*/
+static int	have_eaten(t_data *data)
 {
-	int counter;
-	int finish;
+	int		counter;
+	int		eaten;
 
 	counter = 0;
-	finish = 0;
-	if (data->times_must_eat == 0)
-		return (-1);
-	while (counter < data->number_philo)
+	eaten = 0;
+	if (data->must_eat > 0)
 	{
-		if (data->philo[counter].t_eat >= data->times_must_eat)
-			finish++;
-		else
-			break ;
-		counter++;
+		while (counter < data->number_philos)
+		{
+			if (data->philos[counter].has_eaten >= data->must_eat)
+				eaten++;
+			else
+				break ;
+			counter++;
+		}
+		if (eaten >= data->number_philos)
+		{
+			data->death = 1;
+			pthread_mutex_lock(&data->m_print);
+			return (-1);
+		}
 	}
-	//si finish es igual al numero de philos es porque ya todos han
-	//comido n numero de veces
-	if (finish >= data->number_philo)
-	{
-		data->death = 1;
-		pthread_mutex_lock(&data->m_print);
-		return (0);
-	}
-	return (-1);
+	return (0);
 }
-int ft_die(t_data *data)
-{
-	int count;
 
-	count = 0;
-	while (count < data->number_philo)
+/* Se muere cuando el tiempo para morir es menor a la resta del tiempo actual
+ * menos la ultima vez que este philo comio*/
+static int	ft_die(t_data *data)
+{
+	int	counter;
+
+	counter = 0;
+	while (counter < data->number_philos)
 	{
-		if (data->time_die < (long long int) (get_time() - data->time_start)
-				- data->philo[count].last_eat)
+		if ((get_time() - data->philos[counter].last_eat > data->time_to_die))
 		{
 			pthread_mutex_lock(&data->m_death);
-			ft_print_death(&data->philo[count]);
-			pthread_mutex_lock(&data->m_print);
-			pthread_mutex_lock(data->m_fork);
-			data->death = 1;
-			return (0);
+			ft_print_dead(&data->philos[counter]);
+			pthread_mutex_unlock(&data->m_death);
+			return (-1);
 		}
-		count++;
+		counter++;
 	}
-	return (1);
+	return (0);
 }
 
-/*esta funcion nos revisaria dos cosas, si los filosofos han comido n cantidad,
- * lo cual deberia cerrrar el porgrama de una forma y el check de muerte de filosofos.*/
-void ft_check_finish(t_data *data)
+/*Esta funcion tiene un bucle el cual se encarga de revisar
+ si algun philo ha muerto o si los philo ya han comido las veces
+ necesarias (data->must_eat) La unica opcion para salir de este bucle
+ es cuando la variable data->death sea != 0*/
+int	check_finish(t_data *data)
 {
 	while (data->death == 0)
 	{
-		if (ft_have_eaten(data) == 0)
+		if (have_eaten(data) == -1)
 		{
-			printf("All the philos have eaten enough >:)");
+			printf(YEL"Los philos han comido suficiente >:) (%d veces)\n"RESET,
+				data->must_eat);
 			pthread_mutex_unlock(&data->m_print);
-			break;
+			break ;
 		}
-		if (ft_die(data) == 0)
-			break;
+		if (ft_die(data) == -1)
+			break ;
 	}
+	return (-1);
 }

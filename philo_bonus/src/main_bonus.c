@@ -1,31 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scartage <scartage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/20 18:16:21 by scartage          #+#    #+#             */
-/*   Updated: 2023/05/03 18:17:38 by scartage         ###   ########.fr       */
+/*   Created: 2023/05/11 15:15:28 by scartage          #+#    #+#             */
+/*   Updated: 2023/05/13 18:15:56 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "../inc/philo_bonus.h"
+#include <stdio.h>
 
-int	main(int ac, char **av)
+int main(int ac, char **av)
 {
-	t_data	*data;
+	t_data	data;
+	t_philo	philo;
 
-	if ((check_ac(ac - 1) == -1) || (check_av(av) == -1))
+	if (check_ac(ac) == -1 || check_av(av) == -1)
 		return (-1);
-	data = (t_data *)malloc(sizeof(t_data));
-	if (data == NULL)
+	if (init(&data, &philo, av) == -1)
 		return (-1);
-	if (init(data, av) == -1)
-		return (-1);
-	data->start_time = get_time();
-	data->start_routine = data->start_time + (data->number_philos * 20);
-	create_pthread(data);
-	ft_clean(data);
+	create_process(&data, &philo);
+	ft_clean(&data, &philo);
 	return (0);
 }

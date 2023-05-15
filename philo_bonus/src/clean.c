@@ -5,29 +5,42 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: scartage <scartage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/27 11:48:46 by scartage          #+#    #+#             */
-/*   Updated: 2023/05/03 18:17:38 by scartage         ###   ########.fr       */
+/*   Created: 2023/05/13 17:29:54 by scartage          #+#    #+#             */
+/*   Updated: 2023/05/15 16:04:30 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "../inc/philo_bonus.h"
 
-void	ft_clean(t_data *data)
+void delete_sem(t_philo *philo)
 {
-	int	counter;
+    sem_close(philo->fork);
+    sem_close(philo->eat);
+    sem_close(philo->print);
+}
 
-	counter = 0;
-	pthread_mutex_unlock(&data->m_print);
-	pthread_mutex_unlock(&data->m_death);
-	pthread_mutex_unlock(data->m_forks);
-	pthread_mutex_destroy(&data->m_print);
-	pthread_mutex_destroy(&data->m_death);
-	while (counter < data->number_philos)
-	{
-		pthread_mutex_destroy(&data->m_forks[counter]);
-		counter++;
-	}
-	free(data->m_forks);
-	free(data->philos);
-	free(data);
+int kill_process(t_data *data)
+{
+    int counter;
+
+    counter = 0;
+    while (counter < data->number_philos)
+    {
+        if (data->pid[counter])
+            kill(data->pid[counter], SIGKILL);
+        counter++;
+    }
+    return (1);
+}
+
+
+void ft_clean(t_data *data, t_philo *philo)
+{
+
+    kill_process(data);
+    delete_sem(philo);
+    free(data->pid);
+    free(data);
+    free(philo);
+    return ;
 }

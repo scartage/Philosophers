@@ -3,104 +3,93 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
+/*   By: scartage <scartage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/22 17:33:42 by scartage          #+#    #+#             */
-/*   Updated: 2023/03/22 19:38:01 by scartage         ###   ########.fr       */
+/*   Created: 2023/04/22 16:26:05 by scartage          #+#    #+#             */
+/*   Updated: 2023/05/09 16:57:42 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
+#include <unistd.h>		//para el usleep
 
-/*Inicializamos las variables de la estructura data.
- * Se tiene en cuenta en si se pasa el argumento opcional,
- * ademas de revisar de que los valores sean correctos.*/
-int init_data(t_data *data, char **av)
+int	init_data(t_data *data, char **av)
 {
-	data->number_philo = ft_atoi(av[1]);
-	data->time_die = ft_atoi(av[2]);
-	data->time_eat = ft_atoi(av[3]);
-	data->time_sleep = ft_atoi(av[4]);
 	data->death = 0;
-
+	data->number_philos = ft_atoi(av[1]);
+	data->time_to_die = ft_atoi(av[2]);
+	data->time_to_eat = ft_atoi(av[3]);
+	data->time_to_sleep = ft_atoi(av[4]);
+	data->must_eat = 0;
 	if (av[5])
 	{
-		data->times_must_eat = ft_atoi(av[5]);
-		if (data->times_must_eat <= 0)
+		data->must_eat = ft_atoi(av[5]);
+		if (data->must_eat <= 0)
 		{
-			printf("Error: la cantidad de repeticiones debe ser => 1\n");
+			printf("Error: rutina ya compleata o parametro incorrrecto\n");
 			return (-1);
 		}
 	}
-	if (data->number_philo <= 0 || data->time_die <= 0 ||
-			data->time_eat <= 0 || data->time_sleep <= 0)
-	{
-		printf("Error: los parametros deben ser => 1\n");
+	if (data->number_philos <= 0 || data->time_to_die <= 0
+		|| data->time_to_eat <= 0 || data->time_to_sleep <= 0)
+	{	
+		printf("Error: los parametros deben ser numeros positivos\n");
 		return (-1);
-	}	
+	}
 	return (0);
 }
 
-/*La cantidad de tenedores es la misma que la cantidad de filosofos.
- * aqui creamos un inicializamos el mutex para cada tenedor.*/
-int init_mutex(t_data *data)
+/*Inicializamos los mutex, hay tantos mutex (para la array de tenedores)
+ * como cantidad de philos.
+ */
+int	init_mutex(t_data *data)
 {
-	int count;
+	int	i;
 
-	count = 0;
-	if (pthread_mutex_init(&data->m_death, NULL) != 0)
-		return (-1);
+	i = 0;
 	if (pthread_mutex_init(&data->m_print, NULL) != 0)
 		return (-1);
-	data->m_fork = malloc(sizeof(pthread_mutex_t) * data->number_philo);
-	if (!data->m_fork)
+	if (pthread_mutex_init(&data->m_death, NULL) != 0)
 		return (-1);
-	while (count <= data->number_philo)
+	data->m_forks = malloc(sizeof(pthread_mutex_t) * data->number_philos);
+	if (data->m_forks == NULL)
+		return (-1);
+	while (i <= data->number_philos)
 	{
-		if (pthread_mutex_init(&data->m_fork[count], NULL) != 0)
+		if (pthread_mutex_init(&data->m_forks[i], NULL) != 0)
 			return (-1);
-		count++;
+		i++;
 	}
-	return 0;
+	return (0);
 }
 
-/*Asignamos valores a la estructura de cada filosofo.
- * le damos un ID (comenzando desde el 1), le asignamos un
- * tenedor a la izquierda y otro a la dercha y cada filosofo
- * tendra la estructura de data*/
-int init_philos(t_data *data)
+int	init_philos(t_data *data)
 {
-	int count;
+	int	counter;
 
-	count = 0; 
-	data->philo = (t_philo *)malloc(sizeof(t_philo) * data->number_philo);
-	if (!data->philo)
+	counter = 0;
+	data->philos = (t_philo *)malloc(sizeof(t_philo) * data->number_philos);
+	if (data->philos == NULL)
 		return (-1);
-	while (count < data->number_philo)
+	while (counter < data->number_philos)
 	{
-		data->philo[count].id = count + 1;
-		data->philo[count].left_fork = count;
-		data->philo[count].right_fork= count - 1; 
-		data->philo[count].data = data;
-		count++;
+		data->philos[counter].id = counter + 1;
+		data->philos[counter].left_fork = counter;
+		data->philos[counter].right_fork = counter - 1;
+		data->philos[counter].data = data;
+		data->philos[counter].last_eat = 0;
+		data->philos[counter].has_eaten = 0;
+		counter++;
 	}
-	data->philo[0].right_fork = count - 1;
-	
-	/* Con esto revisamos que esten los tenedores esten
-	 * en la posicion correcta.
-	 * count = 0;
-	while (count < data->number_philo)
-	{
-		printf("idx philo: %d, left_f: %d, right_f: %d\n", data->philo[count].id,
-				data->philo[count].left_fork, data->philo[count].right_fork);
-		count++;
-	}*/
-	return 0;
+	data->philos[0].right_fork = counter - 1;
+	return (0);
 }
 
-/*Funcion general, inicializa datos, tenedores y filosofos.
- * en caso de fallo devuelve un -1, en caso de exito 0*/
-int init(t_data *data, char **av)
+/*Funcion general para incializar todo.
+ * 1) Iniciamos valores de data
+ * 2) Iniciamos mutex (forks, m_print, m_death)
+ * 3) Iniciamos valores de filosofos */
+int	init(t_data *data, char **av)
 {
 	if (init_data(data, av) == -1)
 		return (-1);

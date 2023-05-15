@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scartage <scartage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/22 16:38:10 by scartage          #+#    #+#             */
-/*   Updated: 2023/05/03 18:19:41 by scartage         ###   ########.fr       */
+/*   Created: 2023/05/12 15:54:16 by scartage          #+#    #+#             */
+/*   Updated: 2023/05/15 16:57:01 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
-#include "unistd.h"		//para el usleep()
+#include "../inc/philo_bonus.h"
 
 /*La función ft_time() obtiene el tiempo actual en milisegundos
  * utilizando la estructura timeval de la librería <sys/time.h>.
@@ -43,32 +42,19 @@ void	ft_usleep(int nbr)
 		usleep(nbr / 2);
 }
 
-/*Para pasar de caracteres (ascii) a int
- * el atoi solo convierte a numeros hasta que encuentra otro
- * caracter (no numerico)*/
-int	ft_strlen(char *s)
+int ft_atoi(char *s)
 {
-	int	len;
-
-	len = 0;
-	while (s[len] != '\0')
-		len++;
-	return (len);
-}
-
-int	ft_atoi(char *s)
-{
-	int	num;
-	int	sign;
+	int num;
+	int sig;
 
 	num = 0;
-	sign = 1;
+	sig = 1;
 	while (*s == 32 || (*s >= 9 && *s <= 13))
 		s++;
 	while (*s == '-' || *s == '+')
 	{
 		if (*s == '-')
-			sign = -1;
+			sig = -1;
 		s++;
 	}
 	while (*s >= 48 && *s <= 57)
@@ -76,5 +62,5 @@ int	ft_atoi(char *s)
 		num = num * 10 + *s - '0';
 		s++;
 	}
-	return (num * sign);
+	return (num * sig);
 }

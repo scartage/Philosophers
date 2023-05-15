@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   check_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scartage <scartage@student.42.fr>          +#+  +:+       +#+        */
+/*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/20 17:55:18 by scartage          #+#    #+#             */
-/*   Updated: 2023/05/12 17:43:04 by scartage         ###   ########.fr       */
+/*   Created: 2023/05/11 16:02:29 by scartage          #+#    #+#             */
+/*   Updated: 2023/05/11 16:22:05 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "../inc/philo_bonus.h"
 
-static int	is_num(char c)
+static int is_num(char c)
 {
 	if (c >= 48 && c <= 59)
 		return (0);
 	return (-1);
 }
 
-static int	only_num(char *s)
+static int only_num(char *s)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (s[i] != '\0')
@@ -33,19 +33,14 @@ static int	only_num(char *s)
 	return (0);
 }
 
-/*Con estas dos funciones comprobamos que los parametros
- * que nos pasan sean los correctos.
- *
- * Solo pueden ser numeros positivos, aunque con esta funcion
- * lo unico que se revisa es que sean solo numeros.*/
-int	check_av(char **av)
+int check_av(char **av)
 {
 	int	i;
 
 	i = 1;
 	if (*av[1] == '0')
 	{
-		printf("Error: se necesitan filosofos\n");
+		printf("Error: se necesitan philos\n");
 		return (-1);
 	}
 	while (av[i])
@@ -60,11 +55,11 @@ int	check_av(char **av)
 	return (0);
 }
 
-int	check_ac(int ac)
+int check_ac(int ac)
 {
 	if (ac != 4 && ac != 5)
 	{
-		printf("Error: cantidad de argumentos invalida\n");
+		printf("Error: cantidad de argmuentos invalida\n");
 		return (-1);
 	}
 	return (0);
