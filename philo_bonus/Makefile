@@ -6,11 +6,12 @@
 #    By: scartage <scartage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/05/11 15:03:58 by scartage          #+#    #+#              #
-#    Updated: 2023/05/15 17:21:41 by scartage         ###   ########.fr        #
+#    Updated: 2023/05/22 18:21:24 by scartage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 GREEN	:= \033[32m
+NC		:= \033[m
 NAME	:= philo_bonus
 CC		:= GCC
 RM		:= rm -rf
@@ -38,11 +39,11 @@ make_dir:
 
 $(NAME): $(OBJS) $(INCLUDES)
 		$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-		@echo "$(GREEN) $(NAME) compiled!!"
+		@echo "$(GREEN) $(NAME) compiled!! $(NC)"
 
 clean: 
 		$(RM) $(OBJ_DIR)
-		@echo "$(GREEN) $(NAME) cleaned"
+		@echo "$(GREEN) $(NAME) cleaned $(NC)"
 
 fclean: clean
 		$(RM) $(NAME)

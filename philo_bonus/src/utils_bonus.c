@@ -6,7 +6,7 @@
 /*   By: scartage <scartage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 15:54:16 by scartage          #+#    #+#             */
-/*   Updated: 2023/05/15 16:57:01 by scartage         ###   ########.fr       */
+/*   Updated: 2023/05/22 17:08:36 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,21 @@ void	ft_usleep(int nbr)
 		usleep(nbr / 2);
 }
 
-int ft_atoi(char *s)
+/*Esta funcion me devuelve diferentes tiempos, los cuales comparo
+con philo->time_to_death, mientras ->time_to_death sea mayor que
+d_time es porque el philo esta vivo*/
+long long int	death_time(t_philo *philo)
 {
-	int num;
-	int sig;
+	long long int	d_time;
+
+	d_time = get_time() - philo->time_start_p - philo->last_eat;
+	return (d_time);
+}
+
+int	ft_atoi(char *s)
+{
+	int	num;
+	int	sig;
 
 	num = 0;
 	sig = 1;

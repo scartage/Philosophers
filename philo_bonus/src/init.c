@@ -6,7 +6,7 @@
 /*   By: scartage <scartage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:25:29 by scartage          #+#    #+#             */
-/*   Updated: 2023/05/15 17:02:06 by scartage         ###   ########.fr       */
+/*   Updated: 2023/05/22 18:30:21 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	init_data(t_data *data, char **av)
 			return (-1);
 		}
 	}
+	if (data->must_eat == 0)
+		data->must_eat = 666;
 	if (data->number_philos <= 0 || data->time_to_die <= 0
 		|| data->time_to_eat <= 0 || data->time_to_sleep <= 0)
 	{

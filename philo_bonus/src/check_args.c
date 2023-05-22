@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   check_args.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: scartage <scartage@student.42barcel>       +#+  +:+       +#+        */
+/*   By: scartage <scartage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 16:02:29 by scartage          #+#    #+#             */
-/*   Updated: 2023/05/11 16:22:05 by scartage         ###   ########.fr       */
+/*   Updated: 2023/05/22 18:23:55 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo_bonus.h"
 
-static int is_num(char c)
+static int	is_num(char c)
 {
 	if (c >= 48 && c <= 59)
 		return (0);
 	return (-1);
 }
 
-static int only_num(char *s)
+static int	only_num(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i] != '\0')
@@ -33,7 +33,7 @@ static int only_num(char *s)
 	return (0);
 }
 
-int check_av(char **av)
+int	check_av(char **av)
 {
 	int	i;
 
@@ -55,7 +55,7 @@ int check_av(char **av)
 	return (0);
 }
 
-int check_ac(int ac)
+int	check_ac(int ac)
 {
 	if (ac != 4 && ac != 5)
 	{

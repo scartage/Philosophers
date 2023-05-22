@@ -1,27 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_bonus.c                                       :+:      :+:    :+:   */
+/*   colors_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: scartage <scartage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/11 15:15:28 by scartage          #+#    #+#             */
-/*   Updated: 2023/05/22 18:23:49 by scartage         ###   ########.fr       */
+/*   Created: 2023/05/22 18:02:03 by scartage          #+#    #+#             */
+/*   Updated: 2023/05/22 18:06:47 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo_bonus.h"
+#ifndef COLORS_H
+# define COLORS_H
 
-int	main(int ac, char **av)
-{
-	t_data	data;
-	t_philo	philo;
+//Regular text
+# define BLK "\e[0;30m"
+# define RED "\e[0;31m"
+# define GRN "\e[0;32m"
+# define YEL "\e[0;33m"
+# define BLU "\e[0;34m"
+# define MAG "\e[0;35m"
+# define CYN "\e[0;36m"
+# define WHT "\e[0;37m"
 
-	if (check_ac(ac - 1) == -1 || check_av(av) == -1)
-		return (-1);
-	if (init(&data, &philo, av) == -1)
-		return (-1);
-	create_process(&data, &philo);
-	ft_clean(&data, &philo);
-	return (0);
-}
+//Reset
+# define RESET "\e[0m"
+# define CRESET "\e[0m"
+# define COLOR_RESET "\e[0m"
+#endif

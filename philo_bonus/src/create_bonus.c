@@ -6,37 +6,36 @@
 /*   By: scartage <scartage@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 17:43:45 by scartage          #+#    #+#             */
-/*   Updated: 2023/05/15 17:36:39 by scartage         ###   ########.fr       */
+/*   Updated: 2023/05/22 18:25:51 by scartage         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo_bonus.h"
-/* -1 muerte
+
+/*  0 muerte
 	1 rutina terminda*/
-int check_death(t_data *data)
+int	check_death(t_data *data)
 {
-	int counter;
-	int status;
+	int	counter;
+	int	status;
 
 	counter = 0;
 	while (counter < data->number_philos)
 	{
 		waitpid(-1, &status, WUNTRACED);
-		if (WEXITSTATUS(status) == 65280)
+		if (WEXITSTATUS(status) == 0)
 			break ;
 		if (WEXITSTATUS(status) == 1)
 			counter++;
 	}
-	//kill_process(data);
 	if (counter == data->number_philos)
 		return (1);
 	return (0);
 }
 
-int create_process(t_data *data, t_philo *philo)
+int	create_process(t_data *data, t_philo *philo)
 {
-	int counter;
-	int i = 0;
+	int	counter;
 
 	counter = 0;
 	data->pid = malloc(sizeof(pid_t) * data->number_philos);
@@ -46,13 +45,9 @@ int create_process(t_data *data, t_philo *philo)
 	{
 		data->pid[counter] = fork();
 		if (data->pid[counter] > 0)
-		{
-			//printf("counter [%d] pid [%d]\n", counter, data->pid[counter]);
 			counter++;
-		}
 		else if (data->pid[counter] == 0)
 		{
-			printf("soy el hijo de: %d counter[%d]\n", data->pid[counter], counter);
 			ft_pre_routine(philo, counter);
 			break ;
 		}
@@ -60,6 +55,6 @@ int create_process(t_data *data, t_philo *philo)
 			return (-1);
 	}
 	if (check_death(data) == 1)
-		printf("Rutina compleata\n");
+		printf(YEL"Los philos han comido [%d] veces\n"RESET, philo->must_eat);
 	return (0);
 }

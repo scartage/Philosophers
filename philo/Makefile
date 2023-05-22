@@ -6,11 +6,12 @@
 #    By: scartage <scartage@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/20 18:00:51 by scartage          #+#    #+#              #
-#    Updated: 2023/05/11 15:25:00 by scartage         ###   ########.fr        #
+#    Updated: 2023/05/22 18:20:37 by scartage         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 GREEN 	:= \033[32m
+NC		:= \033[m
 NAME 	= philo
 CC 		= gcc
 RM 		= rm -rf
@@ -25,7 +26,7 @@ SRCS 	= main.c check_args.c init.c utils.c create_pthread.c prints.c \
 
 OBJ_DIR = obj
 OBJS	= $(addprefix $(OBJ_DIR)/, $(SRCS:.c=.o))
-DEPS	= $(SRCS:.c=.d))
+DEPS	= $(SRCS:.c=.d)
 
 vpath %.c src
 
@@ -40,11 +41,11 @@ make_dir:
 
 $(NAME): $(OBJS) $(INCLUDES)
 		$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-		@echo "$(GREEN) $(NAME) compiled!"
+		@echo "$(GREEN) $(NAME) compiled! $(NC)"
 
 clean:
 		$(RM) $(OBJ_DIR)
-		@echo "$(GREEN) $(NAME) cleaned"
+		@echo "$(GREEN) $(NAME) cleaned $(NC)"
 
 fclean: clean
 		$(RM) $(NAME)
