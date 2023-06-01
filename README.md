@@ -33,3 +33,12 @@ You cannot have more than 10ms between the death of a philosopher and the moment
 - Each philosopher must be a thread.
 - There is a fork between each philosopher. Therefore, if there are several philosophers, each philosopher must have a fork to their left and another to their right. If there is only one philosopher, there will only be one fork on the table.
 - To prevent philosophers from duplicating forks, you must protect the states of the forks with a mutex for each one.
+
+## Specific rules for the bonus part
+
+In the bonus part, the program will have the same arguments as in the mandatory part and will behave as indicated in the general instructions chapter.
+
+The specific rules for the bonus part are:
+- The forks are in the center of the table.
+- The forks do not have memory states, but their availability is represented by a semaphore.
+- Each philosopher must be a process and the main process must not be a philosopher.
